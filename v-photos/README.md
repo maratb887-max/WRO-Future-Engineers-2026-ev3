@@ -1,4 +1,4 @@
 Vehicle's photos
 ====
 
-This directory contains 6 photos of the vehicle (from every side, from top and bottom). This allows to see every placement of sensors and yhe porta also it allows to understand how works the steering of robot
+This directory contains six high-resolution photos, that are provided to show the vehicle from every side. These images provide a clear view of the sensor layout, port connections, and the mechanical design of the steering system.
