@@ -1,6 +1,4 @@
 Control software
 ====
 
-This directory must contain code for control software which is used by the vehicle to participate in the competition and which was developed by the participants.
-
-All artifacts required to resolve dependencies and build the project must be included in this directory as well.
+This directory contains the source code for the vehicle's control software, developed entirely by the team. It includes all necessary files and artifacts required to manage dependencies and build the project, ensuring full reproducibility of the system.
