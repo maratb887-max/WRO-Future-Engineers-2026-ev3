@@ -66,3 +66,51 @@ The touch sensor is mounted at the front of the robot, as close as possible to t
 During development, potential failure points were taken into account, such as unstable sensor readings and electrical interference. To address these, data filtering methods and pre-launch calibration are employed.
 
 As a result, the power supply and sensor system has been optimized to ensure reliable, accurate, and stable robot operation under competition conditions.
+
+Section 3: Software Architecture and Obstacle Strategy
+1. Code Modularity and the State Machine
+Despite the use of a visual programming environment (EV3 Education), the software architecture is based on the principles of modularity. The main program loop is a finite state machine (FSM) with several clearly defined states:
+
+INIT State: Port initialization, variable reset (line counter = 0), setting of basic parameters (Setpoint = 60, Kp = ±4).
+
+WALL_FOLLOWING state (Round 1): Basic movement using a P-controller.
+
+COLLISION / OVERRIDE state: Processing of touch sensor activation (port 1). When pressed, the robot stops the steering motor and engages forward motion (50%) for 2 seconds. This allows the robot to be freed from a jam or to forcibly set the start vector.
+
+OBSTACLE_AVOIDANCE state (Round 2): Object recognition via computer vision (Pixy2) and execution of evasion maneuvers.
+
+FINISH state: All motors stop after 13 red or blue lines are detected.
+<img width="1264" height="777" alt="How the clockwise code works" src="https://github.com/user-attachments/assets/c8e810f8-e666-4d79-b319-bd45ec424c0d" />
+
+2. Algorithm Justification
+
+Lane-following Strategy (Round 1): A proportional controller (P-controller) is used instead of relay control. Data from the ultrasonic sensor (port 4) is compared to the target distance (60 cm).
+Formula: Error = Distance - 60. The control action is calculated as Turn = Error * Kp.
+To adapt to the direction of movement (clockwise/counterclockwise), we programmatically change the sign of the coefficient (Kp = 4 or Kp = -4). The main motor operates at -40% reverse thrust to ensure optimal torque.
+<img width="1362" height="792" alt="image" src="https://github.com/user-attachments/assets/660d5f5b-23d8-4a44-a33d-69b2a98cd6c3" /> <img width="1273" height="787" alt="image" src="https://github.com/user-attachments/assets/a484dcd7-fcf9-44c8-a4e8-8f058cb1f279" />
+
+Obstacle Logic (Round 2): A Computer Vision (CV) algorithm based on the Pixy2 camera is used. To filter out noise, the program analyzes the array of detected objects and selects the largest one based on the area of the bounding rectangle (Width x Height). This ensures that the robot reacts only to the nearest block. Depending on the color signature (Signature 1 or 2), the steering motor turns by ±45 degrees, the robot moves forward for 1.0 seconds (Base Speed = 30), after which the wheels return to the zero position (centering).Also, it uses color sensor and if he sees blue line 13 times robot is doing final moves for parking.
+<img width="1855" height="658" alt="image" src="https://github.com/user-attachments/assets/0f409b24-0177-4337-a1ab-9acffbe56a43" />
+
+3. Handling Edge Cases
+The system is designed to account for potential hardware failures and physical limitations:
+
+Steering Mechanism Protection: The calculated turn angle is strictly limited by software limits within the range [-75, 75]. This prevents the servo motor from locking up due to abnormal spikes in the ultrasonic sensor’s readings.
+<img width="742" height="508" alt="image" src="https://github.com/user-attachments/assets/002852a2-d630-4207-9aaf-eefbc35cf2ad" />
+
+Color Sensor Debounce: When a red or blue line is detected, the program increments the counter and forcibly pauses color checking for 2 seconds. This eliminates false multiple triggers on the same line during slow movement.
+<img width="1016" height="491" alt="image" src="https://github.com/user-attachments/assets/7979323d-15c0-40ff-854c-f0138ac92c3a" />
+
+Ignoring background noise in Pixy2: In the absence of signatures (Signature 3), the robot continues moving in a straight line without reacting to random light glare on the track.
+
+4. Testing, Tuning, and Performance Metrics
+During the iterative testing and tuning process, the controller parameters were calibrated:
+
+When Kp > 5, overcorrection (chassis oscillations) was observed.
+
+At Kp < 3, the robot could not react quickly enough to changes in the turning radius.
+
+The optimal value of Kp = ±4 provides a balance between smoothness and response speed.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (13)" src="https://github.com/user-attachments/assets/a7211525-c4b9-4bf8-b349-a25a2d4a5d79" />
+
+Performance Metrics: The main criterion for the algorithm’s success was the stable completion of 13 consecutive sections with a maximum deviation from the target line (60 cm) of no more than ±5 cm, as well as 100% activation of the lap counter without missing any red or blue markers.
