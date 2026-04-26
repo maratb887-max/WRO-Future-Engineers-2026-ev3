@@ -33,3 +33,36 @@ As with the choice of wheels, an engineering compromise was made here as well: a
 Tests confirmed that the chosen mechanical design and control strategy ensure more reliable and predictable robot behavior when performing tasks.
 Performance comparison:
 <img width="1408" height="768" alt="Comparison of ultrasonic sensor" src="https://github.com/user-attachments/assets/49abf324-214b-4ee9-8a37-8ab7925a272a" />
+
+2. Power and Sensor Management
+The robot’s power and sensor system is designed to meet requirements for reliability, operational stability, and energy efficiency.
+
+A rechargeable battery is used as the power source, providing a stable voltage to all system components. The main power consumers are the drive motor, the controller, and the sensors. The motor bears the heaviest load, as it is responsible for the robot’s movement; therefore, the power system is designed with a power reserve to prevent voltage drops during acceleration and maneuvers.
+<img width="2560" height="2560" alt="battery" src="https://github.com/user-attachments/assets/e5471fda-6c8b-4220-a8b8-a7b187e2b00a" />
+
+Power distribution is organized to minimize losses and ensure stable sensor operation. The wiring is kept as short and neat as possible, which reduces resistance and minimizes the impact of electrical interference.
+
+Special attention was paid to the selection and placement of the sensors.
+<img width="972" height="597" alt="image" src="https://github.com/user-attachments/assets/7bb2c716-8af4-496a-af7d-060426aa0b76" />
+
+The ultrasonic sensors are mounted at an angle relative to the direction of travel. This design expands the detection zone and reduces “blind spots,” enabling earlier detection of obstacles.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (8)" src="https://github.com/user-attachments/assets/8fcc9ca3-b9ee-4a4c-a0db-d5942991ac15" />
+
+The camera is positioned at the top of the structure and tilted forward. This placement increases the field of view and allows for early detection of objects on the track, giving the robot more time to make decisions.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (9)" src="https://github.com/user-attachments/assets/87316b1c-6bf7-4e1b-9753-90482e6aadd9" />
+
+<img width="500" height="375" alt="image" src="https://github.com/user-attachments/assets/17d4ddfc-4844-484a-95a1-30a98efc4d6e" />
+The gyroscopic sensor is mounted inside the body, closer to the center of the structure. This protects it from external influences and vibrations, and also improves measurement accuracy. The gyroscope is used to stabilize movement, maintain a straight-line trajectory, and improve turning accuracy.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (10)" src="https://github.com/user-attachments/assets/3c1565b2-207e-45c7-9289-b66761636bd1" />
+
+<img width="225" height="201" alt="image" src="https://github.com/user-attachments/assets/1aaa0ba4-687e-4a46-bbd5-e86ed44b70bd" />
+The color sensor is pointed downward toward the track surface. Its primary function is to detect colored lines and count laps. When moving counterclockwise, the robot counts blue lines; when moving clockwise, it counts red lines. Each detected color marker is recorded by the counting system. After registering 12 lines, the robot automatically stops, which corresponds to completing three full laps of the track. This solution allows for precise distance control and completion of the task without additional intervention.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (11)" src="https://github.com/user-attachments/assets/956e5191-53a6-42fc-9f4d-95cf268fe63d" />
+
+<img width="1009" height="831" alt="image" src="https://github.com/user-attachments/assets/a8ca67ea-c905-47fc-8fa0-cece381f544b" />
+The touch sensor is mounted at the front of the robot, as close as possible to the front edge of the structure. This placement allows it to be the first to detect a potential collision with an obstacle or the track wall. When the sensor is triggered, the robot immediately performs a protective maneuver: it stops, moves backward, and then continues moving according to the algorithm. This reduces the likelihood of getting stuck and damaging the structure, as well as increases the reliability of completing the track.
+<img width="1564" height="1195" alt="smaller wheels with a studded surface (12)" src="https://github.com/user-attachments/assets/b7de9152-a277-42c5-96e7-8164f969b722" />
+
+During development, potential failure points were taken into account, such as unstable sensor readings and electrical interference. To address these, data filtering methods and pre-launch calibration are employed.
+
+As a result, the power supply and sensor system has been optimized to ensure reliable, accurate, and stable robot operation under competition conditions.
