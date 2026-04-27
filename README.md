@@ -1,4 +1,16 @@
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/5ee21ce6-bb96-4127-bcb3-85b6660cba90" />
+
+
+Introduction:
+We are a team cybercrafters participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
+Project Vision:
+Our team focused on developing an autonomous mobile robot capable of high-speed navigation and precise obstacle avoidance. The primary objective was to create a robust system that combines mechanical stability with an advanced software architecture to handle the dynamic challenges of the WRO competition.
+
+Engineering Approach:
+To achieve 100% reliability, we implemented a Proportional-Control (P-regulator) steering system. This allows our robot to maintain a consistent distance from boundaries with fluid movements, minimizing the energy loss caused by sharp corrections. Our design philosophy centers on three core pillars:
+
 Mobility, Design, and Control Strategy
+
 
 The robot’s design was developed with stability, maneuverability, and precision of movement in mind. The robot is built on a “tractor-type” configuration: smaller wheels with a slick surface are mounted at the front, while larger studded wheels connected to the main drive are located at the rear.
 <img width="1564" height="1195" alt="smaller wheels with a studded surface (1)" src="https://github.com/user-attachments/assets/7d300361-8527-422d-b58f-badd76d72f16" />
@@ -89,8 +101,21 @@ Formula: Error = Distance - 60. The control action is calculated as Turn = Error
 To adapt to the direction of movement (clockwise/counterclockwise), we programmatically change the sign of the coefficient (Kp = 4 or Kp = -4). The main motor operates at -40% reverse thrust to ensure optimal torque.
 <img width="1362" height="792" alt="image" src="https://github.com/user-attachments/assets/660d5f5b-23d8-4a44-a33d-69b2a98cd6c3" /> <img width="1273" height="787" alt="image" src="https://github.com/user-attachments/assets/a484dcd7-fcf9-44c8-a4e8-8f058cb1f279" />
 
-Obstacle Logic (Round 2): A Computer Vision (CV) algorithm based on the Pixy2 camera is used. To filter out noise, the program analyzes the array of detected objects and selects the largest one based on the area of the bounding rectangle (Width x Height). This ensures that the robot reacts only to the nearest block. Depending on the color signature (Signature 1 or 2), the steering motor turns by ±45 degrees, the robot moves forward for 1.0 seconds (Base Speed = 30), after which the wheels return to the zero position (centering).Also, it uses color sensor and if he sees blue line 13 times robot is doing final moves for parking.
-<img width="1855" height="658" alt="image" src="https://github.com/user-attachments/assets/0f409b24-0177-4337-a1ab-9acffbe56a43" />
+Obstacle Logic (Round 2):The program’s logic is based on a continuous loop in which the robot selects one of two states every fraction of a second: normal movement or task completion. At the start of each lap, the program checks the “lines” variable (the number of lines): if it is less than 13, the robot continues driving along the track, and if it is equal to 13, it immediately proceeds to the final maneuver—backing up and turning.
+
+While the robot is in motion mode, its behavior is determined by sensors:
+
+The color sensor constantly searches for the blue line: as soon as it sees it, the program reads the current number from memory, adds one to it, and writes it back.
+
+To prevent the robot from counting the same line multiple times, a wait block is built into the code: the program pauses briefly (for example, 0.2 seconds) while the robot physically crosses the line, and only then allows it to move forward.
+
+The rest of the time, while the sensor sees only the floor, the P-controller is active: the robot measures the distance to the wall with an ultrasonic sensor and compares it to the ideal distance of 60 cm.
+
+If the robot deviates from its course, the program multiplies the difference in distance by a coefficient and adjusts the motors to return to the desired distance, simultaneously checking the Pixy2 camera for obstacles.
+
+In this way, the algorithm allows the robot to consistently maintain a distance from the wall and accurately track the path traveled until the number of markers reaches the finish value.
+<img width="1881" height="628" alt="image" src="https://github.com/user-attachments/assets/3d2df106-4307-456a-96c3-6ef66cbb0514" />
+
 
 3. Handling Edge Cases
 The system is designed to account for potential hardware failures and physical limitations:
@@ -114,3 +139,42 @@ The optimal value of Kp = ±4 provides a balance between smoothness and response
 <img width="1564" height="1195" alt="smaller wheels with a studded surface (13)" src="https://github.com/user-attachments/assets/a7211525-c4b9-4bf8-b349-a25a2d4a5d79" />
 
 Performance Metrics: The main criterion for the algorithm’s success was the stable completion of 13 consecutive sections with a maximum deviation from the target line (60 cm) of no more than ±5 cm, as well as 100% activation of the lap counter without missing any red or blue markers.
+
+
+4. Development Iterations & Risk Management
+Through extensive field testing and multiple trial runs, we refined both the mechanical structure and the control algorithms to ensure maximum reliability under competition conditions.
+
+Key achievements of our iterative process:
+
+Proactive Path Planning: Unlike simple wall-following, our P-regulator is tuned to maintain a safe "buffer zone" (61 cm). By comparing operational risks, we decided to keep the robot further from obstacles to account for sensor noise and mechanical drift, significantly reducing the probability of collisions.
+<img width="1920" height="1080" alt="Can be nervous if the Kp (gain) is too high" src="https://github.com/user-attachments/assets/28a79547-caed-46f2-9727-31079515332c" />
+
+Collision Recovery System: We implemented a reliable safety logic. In the event of an unexpected impact or friction with a barrier, the algorithm detects the stall or distance anomaly and triggers an automated "recovery maneuver." The robot can back away from the obstacle and realign its steering to continue the race without human intervention.
+
+Risk vs. Speed Optimization: Our final configuration represents the best balance between high-speed performance and collision avoidance. Multiple runs proved that a slightly more conservative path (further from walls) results in more consistent lap times and prevents DNF (Did Not Finish) scenarios.
+
+5. Final Documentation Overview
+We have fully documented our engineering process to ensure transparency and provide a clear roadmap for our project. The following materials are included to support our work:
+
+Comprehensive Build Instructions: A detailed guide on the robot's construction is provided, ensuring that the mechanical design is fully reproducible.
+
+Component & Sensor Logic: Each hardware part is listed with its specific function, explaining how the sensor placement (Ultrasonic on Port B, Color on Port C) contributes to the robot's performance.
+
+Visual Evidence: We have provided high-quality video demonstrations showing the robot’s real-world behavior, successfully counting lines and maintaining trajectory.
+
+Software Clarity: All algorithms are explained through professional flowcharts and clean Python (Pybricks) code, bridging the gap between theoretical logic and physical execution.
+
+This documentation serves as a complete record of our engineering journey, proving that our robot is not just functional, but built upon solid, well-documented principles.
+
+Photos of robot:
+
+<img width="1600" height="1200" alt="right view" src="https://github.com/user-attachments/assets/d1ff1eac-baa3-4088-9be2-86c79198981f" />
+<img width="1200" height="1600" alt="Bottom view" src="https://github.com/user-attachments/assets/06b69a2e-8908-489e-9b63-77ed9f57ab7a" />
+<img width="1200" height="1600" alt="Top view" src="https://github.com/user-attachments/assets/8bcb4239-896e-4f17-a2f1-6381f7ebb017" />
+<img width="1200" height="1600" alt="rear view" src="https://github.com/user-attachments/assets/e8c86329-95f6-455d-99b4-17dd4c1b1c62" />
+<img width="1600" height="1200" alt="left view" src="https://github.com/user-attachments/assets/8adb96dc-8525-4f07-9e63-ea1d873be744" />
+<img width="1200" height="1600" alt="Front view" src="https://github.com/user-attachments/assets/fa8211f1-d32f-47f6-8eb0-2e954fd5c8ac" />
+
+Team photo:
+<img width="1600" height="1200" alt="BexAryn" src="https://github.com/user-attachments/assets/77646167-b3c5-4791-b07c-f3218fafd2ae" />
+Thanks for your attention and bye!
