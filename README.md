@@ -2,6 +2,7 @@
 
 
 Introduction:
+====
 We are a team cybercrafters participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
 Project Vision:
 Our team focused on developing an autonomous mobile robot capable of high-speed navigation and precise obstacle avoidance. The primary objective was to create a robust system that combines mechanical stability with an advanced software architecture to handle the dynamic challenges of the WRO competition.
@@ -10,7 +11,7 @@ Engineering Approach:
 To achieve 100% reliability, we implemented a Proportional-Control (P-regulator) steering system. This allows our robot to maintain a consistent distance from boundaries with fluid movements, minimizing the energy loss caused by sharp corrections. Our design philosophy centers on three core pillars:
 
 Mobility, Design, and Control Strategy
-
+====
 
 The robot’s design was developed with stability, maneuverability, and precision of movement in mind. The robot is built on a “tractor-type” configuration: smaller wheels with a slick surface are mounted at the front, while larger studded wheels connected to the main drive are located at the rear.
 <img width="1564" height="1195" alt="smaller wheels with a studded surface (1)" src="https://github.com/user-attachments/assets/7d300361-8527-422d-b58f-badd76d72f16" />
@@ -46,7 +47,8 @@ Tests confirmed that the chosen mechanical design and control strategy ensure mo
 Performance comparison:
 <img width="1408" height="768" alt="Comparison of ultrasonic sensor" src="https://github.com/user-attachments/assets/49abf324-214b-4ee9-8a37-8ab7925a272a" />
 
-2. Power and Sensor Management
+Power and Sensor Management
+====
 The robot’s power and sensor system is designed to meet requirements for reliability, operational stability, and energy efficiency.
 
 A rechargeable battery is used as the power source, providing a stable voltage to all system components. The main power consumers are the drive motor, the controller, and the sensors. The motor bears the heaviest load, as it is responsible for the robot’s movement; therefore, the power system is designed with a power reserve to prevent voltage drops during acceleration and maneuvers.
@@ -79,7 +81,8 @@ During development, potential failure points were taken into account, such as un
 
 As a result, the power supply and sensor system has been optimized to ensure reliable, accurate, and stable robot operation under competition conditions.
 
-Section 3: Software Architecture and Obstacle Strategy
+ Software Architecture and Obstacle Strategy
+ ====
 1. Code Modularity and the State Machine
 Despite the use of a visual programming environment (EV3 Education), the software architecture is based on the principles of modularity. The main program loop is a finite state machine (FSM) with several clearly defined states:
 
@@ -94,8 +97,8 @@ OBSTACLE_AVOIDANCE state (Round 2): Object recognition via computer vision (Pixy
 FINISH state: All motors stop after 13 red or blue lines are detected.
 <img width="1264" height="777" alt="How the clockwise code works" src="https://github.com/user-attachments/assets/c8e810f8-e666-4d79-b319-bd45ec424c0d" />
 
-2. Algorithm Justification
-
+Algorithm Justification
+====
 Lane-following Strategy (Round 1): A proportional controller (P-controller) is used instead of relay control. Data from the ultrasonic sensor (port 4) is compared to the target distance (60 cm).
 Formula: Error = Distance - 60. The control action is calculated as Turn = Error * Kp.
 To adapt to the direction of movement (clockwise/counterclockwise), we programmatically change the sign of the coefficient (Kp = 4 or Kp = -4). The main motor operates at -40% reverse thrust to ensure optimal torque.
@@ -117,7 +120,8 @@ In this way, the algorithm allows the robot to consistently maintain a distance 
 <img width="1881" height="628" alt="image" src="https://github.com/user-attachments/assets/3d2df106-4307-456a-96c3-6ef66cbb0514" />
 
 
-3. Handling Edge Cases
+Handling Edge Cases
+====
 The system is designed to account for potential hardware failures and physical limitations:
 
 Steering Mechanism Protection: The calculated turn angle is strictly limited by software limits within the range [-75, 75]. This prevents the servo motor from locking up due to abnormal spikes in the ultrasonic sensor’s readings.
@@ -128,7 +132,8 @@ Color Sensor Debounce: When a red or blue line is detected, the program incremen
 
 Ignoring background noise in Pixy2: In the absence of signatures (Signature 3), the robot continues moving in a straight line without reacting to random light glare on the track.
 
-4. Testing, Tuning, and Performance Metrics
+Testing, Tuning, and Performance Metrics
+====
 During the iterative testing and tuning process, the controller parameters were calibrated:
 
 When Kp > 5, overcorrection (chassis oscillations) was observed.
@@ -141,7 +146,8 @@ The optimal value of Kp = ±4 provides a balance between smoothness and response
 Performance Metrics: The main criterion for the algorithm’s success was the stable completion of 13 consecutive sections with a maximum deviation from the target line (60 cm) of no more than ±5 cm, as well as 100% activation of the lap counter without missing any red or blue markers.
 
 
-4. Development Iterations & Risk Management
+ Development Iterations & Risk Management
+ ====
 Through extensive field testing and multiple trial runs, we refined both the mechanical structure and the control algorithms to ensure maximum reliability under competition conditions.
 
 Key achievements of our iterative process:
@@ -153,7 +159,8 @@ Collision Recovery System: We implemented a reliable safety logic. In the event 
 
 Risk vs. Speed Optimization: Our final configuration represents the best balance between high-speed performance and collision avoidance. Multiple runs proved that a slightly more conservative path (further from walls) results in more consistent lap times and prevents DNF (Did Not Finish) scenarios.
 
-5. Final Documentation Overview
+Final Documentation Overview
+====
 We have fully documented our engineering process to ensure transparency and provide a clear roadmap for our project. The following materials are included to support our work:
 
 Comprehensive Build Instructions: A detailed guide on the robot's construction is provided, ensuring that the mechanical design is fully reproducible.
@@ -167,6 +174,7 @@ Software Clarity: All algorithms are explained through professional flowcharts a
 This documentation serves as a complete record of our engineering journey, proving that our robot is not just functional, but built upon solid, well-documented principles.
 
 Photos of robot:
+====
 
 <img width="1600" height="1200" alt="right view" src="https://github.com/user-attachments/assets/d1ff1eac-baa3-4088-9be2-86c79198981f" />
 <img width="1200" height="1600" alt="Bottom view" src="https://github.com/user-attachments/assets/06b69a2e-8908-489e-9b63-77ed9f57ab7a" />
@@ -176,5 +184,6 @@ Photos of robot:
 <img width="1200" height="1600" alt="Front view" src="https://github.com/user-attachments/assets/fa8211f1-d32f-47f6-8eb0-2e954fd5c8ac" />
 
 Team photo:
+====
 <img width="1600" height="1200" alt="BexAryn" src="https://github.com/user-attachments/assets/77646167-b3c5-4791-b07c-f3218fafd2ae" />
 Thanks for your attention and bye!
