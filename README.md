@@ -1,4 +1,20 @@
-
+Port	Device	Type	Voltage	Connection
+OUTPUT_B	Medium Motor (Steering)	Motor	4.5V	6-Pin EV3 Motor
+OUTPUT_D	Medium Motor (Drive)	Motor	4.5V	6-Pin EV3 Motor
+OUTPUT_C	Second Medium Motor (Drive)	Motor	4.5V	6-Pin EV3 Motor
+INPUT_1	Pixy 2.1 Camera	I2C	5V	Custom I2C Adapter
+INPUT_2	Ultrasonic Sensor (Right)	Digital	3.3V	6-Pin EV3 Cable
+INPUT_3	Ultrasonic Sensor (Left)	Digital	3.3V	6-Pin EV3 Cable
+INPUT_4	Color Sensor	Analog	3.3V	6-Pin EV3 Cable
+Power Specifications
+Component	Voltage	Current (Idle)	Current (Active)	Power
+EV3 Brick	9V	50mA	200mA	1.8W
+Medium Motor (Drive)	4.5V	0A	400-600mA	1.8-2.7W
+Medium Motor (Steer)	4.5V	0A	300-500mA	1.35-2.25W
+Pixy 2.1	5V	80mA	140mA	0.7W
+2x Ultrasonic Sensors	3.3V	60mA	80mA	0.26W
+Color Sensor	3.3V	20mA	35mA	0.1W
+TOTAL		~210mA	~1700mA	~8.8W peak
 
 
 Introduction:
