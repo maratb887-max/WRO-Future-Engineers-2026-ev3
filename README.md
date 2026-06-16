@@ -357,7 +357,9 @@ Standard energy (nominal)    ~15 Wh (2100 mAh × 7.2V)
 
 ________________________________________
 Wire EV3
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/7a840827-d74c-41da-a1bc-5bd8462cf2f7" />
+
+<img width="674" height="296" alt="image" src="https://github.com/user-attachments/assets/dc931efb-70a7-41b9-8b21-d31f97a485b5" />
+
 
 🎯 Function
 Component connection cable — connects all sensors and motors to the main EV3 Brick. Provides both power and data transmission between components and the controller.
