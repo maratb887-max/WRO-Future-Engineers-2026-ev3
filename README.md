@@ -52,7 +52,7 @@ WRO 2025 Future Engineers - Robot Component Description
 •    EV3 Wire
 ________________________________________
 EV3 Brick (Control Brick)
-<img width="942" height="1000" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />
 
 🎯 Function
 The robot controller is the robot’s main “brain,” which controls all other components. The EV3 Brick is responsible for processing data from sensors, executing algorithms, controlling motors, and making real-time decisions.
@@ -144,7 +144,7 @@ Power (maximum)    ~2 W
 
 ________________________________________
 Ultrasonic Sensor EV3
-<img width="554" height="554" alt="image" src="https://github.com/user-attachments/assets/5099b5b3-a6de-48d9-ac0f-09ca4261db56" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/5099b5b3-a6de-48d9-ac0f-09ca4261db56" />
 
 🎯 Function
 Obstacle sensor — uses ultrasonic waves to measure the distance to objects in front of the robot. It allows the robot to detect and avoid obstacles, parking spots, and other objects on the playing field.
@@ -190,7 +190,7 @@ Power (rated)    ~0.4 W
 
 __________________________
 EV3 Color Sensor
-<img width="1000" height="853" alt="image" src="https://github.com/user-attachments/assets/435c4140-d981-4a11-84ff-627da6e84400" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/435c4140-d981-4a11-84ff-627da6e84400" />
 
 🎯 Function
 
@@ -239,7 +239,7 @@ Viewing distance    ~2 cm from the surface (optimal)
 
 ____________________
 Pixy 2.1 Camera
-<img width="447" height="447" alt="image" src="https://github.com/user-attachments/assets/578eed5e-fb6b-4434-8095-ce3195cd33de" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/578eed5e-fb6b-4434-8095-ce3195cd33de" />
 
 🎯 Function
 A camera with built-in image processing—detects and tracks objects by color in real time. Used to locate colored blocks, markers, road signs, and other visual objects on the WRO playing field.
@@ -299,7 +299,7 @@ EV3 integration    Requires an EV3 I2C cable or UART adapter
 
 ________________________________________
 EV3 Battery
-<img width="480" height="416" alt="image" src="https://github.com/user-attachments/assets/86f4de5e-63f2-422a-a432-eb011d1faf7b" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/86f4de5e-63f2-422a-a432-eb011d1faf7b" />
 
 🎯 Function
 Power source — supplies power to all robot components (EV3 Brick, motors, sensors). This is an official LEGO battery designed specifically for use with the MINDSTORMS system.
@@ -357,7 +357,7 @@ Standard energy (nominal)    ~15 Wh (2100 mAh × 7.2V)
 
 ________________________________________
 Wire EV3
-<img width="324" height="324" alt="image" src="https://github.com/user-attachments/assets/7a840827-d74c-41da-a1bc-5bd8462cf2f7" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/7a840827-d74c-41da-a1bc-5bd8462cf2f7" />
 
 🎯 Function
 Component connection cable — connects all sensors and motors to the main EV3 Brick. Provides both power and data transmission between components and the controller.
