@@ -61,22 +61,38 @@ The LEGO MINDSTORMS EV3 Intelligent Brick is a powerful microcontroller based on
 🔧 Technical Specifications
 Specification    Value
 Processor    Texas Instruments Sitara AM1808, ARM9, 300 MHz
+
 Random Access Memory (RAM)    64 MB
+
 Built-in memory (Flash)    4 GB (for program storage)
+
 Nominal voltage    7.2 - 9.0 V
+
 Connection ports    4 ports for motors (A, B, C, D), 4 ports for sensors (1, 2, 3, 4)
+
 Interfaces    USB, Bluetooth, Wi-Fi (with adapter)
+
 Display    178 × 128 pixels, black-and-white LCD
+
 Battery    LEGO Battery Pack
+
 Dimensions    149 × 98 × 54 mm
+
 Weight    368 g (with batteries)
+
 Response time    ~50 ms
+
 Supported OS    ev3dev (Linux), LEGO MINDSTORMS чEducation, LEGO MINDSTORMS Home
+
 ⚡ Power Specifications
 •    Nominal voltage: 7.2–9.0 V
+
 •    Maximum current: ~2 A
+
 •    Power consumption (standby mode): ~50 mW
+
 •	Power consumption (in operation): ~500 mW - 1.5 W (depending on load)
+
 ________________________________________
 Medium Motor EV3
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/2243ee6d-8c3a-460e-ae51-95c56b714598" />
