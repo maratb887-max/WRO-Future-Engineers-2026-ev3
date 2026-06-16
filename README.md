@@ -79,7 +79,7 @@ Supported OS    ev3dev (Linux), LEGO MINDSTORMS чEducation, LEGO MINDSTORMS Hom
 •	Power consumption (in operation): ~500 mW - 1.5 W (depending on load)
 ________________________________________
 Medium Motor EV3
-<img width="886" height="795" alt="image" src="https://github.com/user-attachments/assets/2243ee6d-8c3a-460e-ae51-95c56b714598" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/2243ee6d-8c3a-460e-ae51-95c56b714598" />
 
 🎯 Function
 Steering mechanism drive — The Medium Motor is used to turn the robot’s steering system. This motor ensures precise positioning and quick directional control.
