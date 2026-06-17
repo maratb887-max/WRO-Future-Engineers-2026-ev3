@@ -639,7 +639,8 @@ Software Architecture & Navigation Strategy (Open Challenge)
 
 **Figure 2: Inner Wall Following Logic (Target Offset: 400 mm)**
 
-![Inner Wall Following Logic](<img width="717" height="577" alt="image" src="https://github.com/user-attachments/assets/d773497e-b81a-4e05-88cc-b5a1b1b5eb59" />)
+![Inner Wall Following Logic]     <img width="581" height="571" alt="image" src="https://github.com/user-attachments/assets/9ac04d7f-fdae-49ed-96e3-6a5c3afd07f1" />
+
 
 **Table 2: Navigation Strategy Trade-off Analysis**
 
@@ -655,9 +656,8 @@ Engineering Reasoning & Trade-offs: According to WRO rules, the track width dyna
 | **Inner Wall Following** | Robot remains perfectly centered in narrow sections and safely tracks wide sections. | Requires strict calibration of the target distance to prevent inner wall collisions. | ✅ **Selected.** A strict 400 mm offset guarantees stable navigation regardless of dynamic track width. |
 
 **Figure 3: Sensor Debounce Logic for Reliable Line Counting**
-![Debounce Logic](<img width="1175" height="965" alt="image" src="https://github.com/user-attachments/assets/887b9a7c-f0d5-4284-b066-e2c7dc8aa2a2" />)
+![Debounce Logic]   <img width="1152" height="897" alt="image" src="https://github.com/user-attachments/assets/97649566-ec7f-4170-904f-de74e69e2404" />
 
-**Table 3: Validation Metrics for Lap Counting Accuracy**
 
 To track the completion of the required 3 laps, we use a downward-facing Color sensor to detect the blue and orange section divider lines.
 
@@ -672,7 +672,9 @@ Metrics used to validate performance: During initial testing, raw sensor polling
 
 **Figure 4: Autonomous Braking Trajectory within the Start/Finish Zone**
 
-**Table 4: Emergency Brake Execution Sequence**
+<img width="572" height="570" alt="image" src="https://github.com/user-attachments/assets/15cc8154-460a-4815-8963-8b78e5b93327" />
+
+
 
 The rules strictly require the robot to stop within the finish section after exactly 3 laps. Since there are 4 crossing lines per lap, 3 full laps equal exactly 12 lines.
 
@@ -683,7 +685,8 @@ Flow: Once the line variable hits 12, the dedicated stop thread overrides the lo
 | `lines == 12` | Trigger Stop Thread, override Locomotion Thread. | + 0.0s | Initiate the autonomous stopping sequence immediately. |
 | Audio Cue | Play "Game Over" sound notification. | + 0.1s | Provide audible confirmation of task completion for judges/developer. |
 | Motor Cutoff | Send 0 power command to Drive Motor (D). | + 0.2s | Halt mechanical forward propulsion. |
-| Program Terminate | Full software shutdown. | + 2.0s | Allow mechanical inertia to settle, ensuring the projection remains strictly in the start zone. |         
+| Program Terminate | Full software shutdown. | + 2.0s | Allow mechanical inertia to settle, ensuring the projection remains strictly in the start zone. |  
+
 Photos of robot:
 ====
 <img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/2f27f061-325a-4b0d-b419-d8e37379a3cd" />
