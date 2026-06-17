@@ -298,7 +298,7 @@ Position: Front right (offset +15 cm to the right) and front left
 
 Height: 8-10 cm above floor
 
-Direction: Forward, with slight downward angle (-10°)
+Direction: Left and Right, with slight downward angle (-10°)
 
 Justification: Proportional regulator
 <img width="1920" height="1080" alt="Parameter (13)" src="https://github.com/user-attachments/assets/8bb28250-c374-43dd-a487-62ccd2c10893" />
