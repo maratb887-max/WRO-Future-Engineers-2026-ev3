@@ -554,7 +554,10 @@ Wire EV3
 
 
 🎯 Function
-Component connection cable — connects all sensors and motors to the main EV3 Brick. Provides both power and data transmission between components and the controller.
+Component connection cable — connects all sensors and motors to the main EV3 Brick. Provides both power and data transmission between components and the controller, especially with pixy 2.1 camera 
+
+<img width="1773" height="871" alt="image" src="https://github.com/user-attachments/assets/89f3df7a-c007-44b8-8c3b-196582038e70" />
+
 📝 Description
 
 LEGO MINDSTORMS EV3 Cables are specialized cables with 6-pin connectors, designed by LEGO to reliably connect MINDSTORMS system components. The cables feature built-in pin identification, which prevents incorrect connections. Each cable carries both power (for motors and sensors) and data (I2C, UART) for two-way communication.
