@@ -268,11 +268,11 @@ Conclusion: Reducing weight from 1200 g to 700 g gave us better dynamics without
         │                        │                       │
     ┌───────────────────────┬────┴────┬─────────────────────┐
     │                       │         │                     │
-┌───▼────┐          ┌──────▼──┐ ┌───▼──────┐          ┌───▼────┐
-│ Motor  │          │ Drive   │ │ Drive    │          │ Motor  │
-│ Steering│         │ Wheel L │ │ Wheel R  │          │ Spare  │
-│(Medium)│          │(RW)     │ │(RW)      │          │        │
-└────────┘          └─────────┘ └──────────┘          └────────┘
+    ┌───▼────┐          ┌──────▼──┐ ┌───▼──────┐          ┌───▼────┐
+    │ Motor  │          │ Drive   │ │ Drive    │          │ Motor  │
+    │ Steering│         │ Wheel L │ │ Wheel R  │          │ Spare  │
+    │(Medium)│          │(RW)     │ │(RW)      │          │        │
+    └────────┘          └─────────┘ └──────────┘          └────────┘
 
 FRONT OF ROBOT ↑
 
@@ -397,8 +397,7 @@ WRO 2025 Future Engineers - Robot Component Description
 
 ________________________________________
 EV3 Brick (Control Brick)
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />  <img width="1920" height="1080" alt="Parameter (3)" src="https://github.com/user-attachments/assets/9ab0898c-22d3-486a-a010-42d52f28e110" />
-
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />
 
 🎯 Function
 The robot controller is the robot’s main “brain,” which controls all other components. The EV3 Brick is responsible for processing data from sensors, executing algorithms, controlling motors, and making real-time decisions.
@@ -407,30 +406,8 @@ The robot controller is the robot’s main “brain,” which controls all other
 The LEGO MINDSTORMS EV3 Intelligent Brick is a powerful microcontroller based on an ARM processor, running the ev3dev (Linux) operating system. It allows you to program the robot in Python, making it the ideal choice for WRO Future Engineers. The brick is equipped with built-in ports for connecting motors (A, B, C, D) and sensors (1, 2, 3, 4), and also features a built-in screen for debugging and testing.
 🔧 Technical Specifications
 
-Specification    Value
-Processor    Texas Instruments Sitara AM1808, ARM9, 300 MHz
+<img width="1920" height="1080" alt="Parameter (3)" src="https://github.com/user-attachments/assets/23404343-594e-43e1-a069-ecc30e017e75" />
 
-Random Access Memory (RAM)    64 MB
-
-Built-in memory (Flash)    4 GB (for program storage)
-
-Nominal voltage    7.2 - 9.0 V
-
-Connection ports    4 ports for motors (A, B, C, D), 4 ports for sensors (1, 2, 3, 4)
-
-Interfaces    USB, Bluetooth, Wi-Fi (with adapter)
-
-Display    178 × 128 pixels, black-and-white LCD
-
-Battery    LEGO Battery Pack
-
-Dimensions    149 × 98 × 54 mm
-
-Weight    368 g (with batteries)
-
-Response time    ~50 ms
-
-Supported OS    ev3dev (Linux), LEGO MINDSTORMS чEducation, LEGO MINDSTORMS Home
 
 ⚡ Power Specifications
 •    Nominal voltage: 7.2–9.0 V
@@ -452,33 +429,8 @@ Steering mechanism drive — The Medium Motor is used to turn the robot’s stee
 The LEGO MINDSTORMS EV3 Medium Motor is a compact, powerful motor with a built-in encoder (rotation sensor) for precise position control. It is ideal for applications requiring precision and speed without excessive torque. In our design, a single unit is used to control the steering angle of the front wheels, ensuring precise path tracking.
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (4)" src="https://github.com/user-attachments/assets/29a86348-49a1-4874-8c98-9d72ff649ce6" />
 
-Type    LEGO MINDSTORMS EV3 Medium Motor
-
-Rated Voltage    7.2 - 9.0 V
-
-Maximum RPM    240 RPM (at rated voltage)
-
-Torque (rated)    12 N·cm
-
-Maximum torque    15 N·cm
-
-Built-in encoder    Yes (360 pulses per revolution)
-
-Typical current consumption    ~300 mA (no load), up to 1.5 A (at maximum load)
-
-Response time    ~40 ms
-
-Control range    PWM 0-100% (integrated into the EV3 Brick)
-
-Dimensions    43 × 43 × 43 mm
-
-Weight    90 g
-
-Power (rated)    ~0.8 W
-
-Power (maximum)    ~2 W
 
 ⚡ Power specifications
 •		Rated voltage: 7.2–9.0 V (matches the EV3 Brick)
@@ -494,38 +446,16 @@ Ultrasonic Sensor EV3
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/5099b5b3-a6de-48d9-ac0f-09ca4261db56" />
 
 🎯 Function
-Obstacle sensor — uses ultrasonic waves to measure the distance to objects in front of the robot. It allows the robot to detect and avoid obstacles, parking spots, and other objects on the playing field.
+Function & Software Implementation:
+The ultrasonic sensor measures the distance to objects in front of the robot. In our project, it serves a dual purpose: first, it provides feedback for the P-regulator by continuously tracking the distance to the wall and adjusting Motor A's steering angle based on the calculated error to keep the robot parallel to the borders; second, during the final stage, it acts as a parking trigger by monitoring the distance to the back wall of the garage and immediately stopping Motor D when the distance drops below 35 cm.
 
 📝 Description
 The LEGO MINDSTORMS EV3 Ultrasonic Sensor (distance sensor) works on the principle of echolocation, similar to the sonar used by bats and dolphins. The sensor emits an ultrasonic signal and measures the time it takes for the reflected signal to return, calculating the distance to the object. This allows the robot to navigate its environment with confidence and safely complete WRO tasks.
 
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (6)" src="https://github.com/user-attachments/assets/766ace84-0351-4586-9b99-a214073156ee" />
 
-Type    Ultrasonic distance sensor (sonar)
-
-Nominal voltage    7.2 - 9.0 V
-
-Measurement range    3 - 250 cm (1 - 98 inches)
-
-Accuracy    ±2 cm (within the 10-200 cm range)
-
-Ultrasonic frequency    40 kHz
-
-Polling frequency    ~20 Hz (50 ms per measurement)
-
-Detection angle    ~60° (detection cone)
-
-Response time to distance change    ~100 ms
-
-Current consumption    ~50 mA (in operating mode)
-
-Dimensions    32 × 31 × 47 mm
-
-Weight    60 g
-
-Power (rated)    ~0.4 W
 
 ⚡ Power specifications
 
@@ -548,33 +478,8 @@ The LEGO MINDSTORMS EV3 Color Sensor can recognize 7 different colors (black, br
 
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (7)" src="https://github.com/user-attachments/assets/247d5205-74ab-48bb-b6d9-c007420caeba" />
 
-Type    RGB Color Sensor with reflected light mode
-
-Nominal voltage    7.2 - 9.0 V
-
-Operating modes    3 modes: Color (7 colors), Reflected Light (0-100%), Ambient Light (0-100%)
-
-Recognized colors    Black, Brown, Blue, Red, Purple, Yellow, White
-
-Detection range    0 - 20 cm (optimal 1-2 cm)
-
-Color recognition accuracy    ~95% under optimal lighting
-
-Polling rate    ~10 Hz (100 ms per measurement)
-
-Current consumption    ~80 mA (in backlight mode)
-
-Built-in backlight    Yes (white LED, ~50 lux)
-
-Dimensions    32 × 33 × 47 mm
-
-Weight    65 g
-
-Power (rated)    ~0.6 W
-
-Viewing distance    ~2 cm from the surface (optimal)
 
 ⚡ Power specifications
 
@@ -596,39 +501,8 @@ The CMUcam5 Pixy 2.1 is a coin-sized camera with its own ARM Cortex-M7 processor
 
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (8)" src="https://github.com/user-attachments/assets/033bf77c-407f-4c2a-b5f7-1a051ab1459e" />
 
-Type    Smart Camera (camera with built-in image processing)
-
-Nominal voltage    5.0 V (important: a step-down converter from 7.2–9 V EV3 is required)
-
-Sensor resolution    320 × 200 pixels
-
-Frame rate    50 FPS (50 frames per second)
-
-Communication interface    UART (9600 baud) or SPI
-
-On-board processor    ARM Cortex-M7, 200 MHz
-
-Recognizable objects    Up to 7 different color signatures simultaneously
-
-Maximum number of trackable objects    Up to 255 objects per frame
-
-Data for each detected object    x, y coordinates, width, height, angle (for BarCode modules)
-
-Detection range    10 cm – 3 m (depending on object size)
-
-Field of view    ~75° (horizontal), ~49° (vertical)
-
-Current consumption    ~100 mA (in tracking mode)
-
-Dimensions 43 × 43 × 41 mm
-
-Weight    28 g
-
-Power (rated)    0.5 W
-
-EV3 integration    Requires an EV3 I2C cable or UART adapter
 
 ⚡ Power Specifications
 
@@ -656,37 +530,8 @@ The LEGO MINDSTORMS EV3 Rechargeable Battery Pack is a professional lithium-ion 
 
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (9)" src="https://github.com/user-attachments/assets/eaecdbd4-000e-4b4e-b21c-c5dbd5db6890" />
 
-Type    Lithium-ion battery (Li-Ion)
-
-Nominal voltage    7.2 V (nominal), 7.2 - 8.4 V (during operation)
-
-Maximum voltage (fully charged)    8.4 V
-
-Minimum voltage (discharge)    5.6 V (shutdown)
-
-Capacity    2100 mAh
-
-Chemistry    Li-Ion 1S2P (1 cell in series, 2 in parallel)
-
-Built-in protections    BMS (Battery Management System) microchip for protection against overcharging,  Overdischarge, overheating, short circuit
-
-Charging time (with the official charger)    ~4–6 hours
-
-Battery life cycle    ~500–1,000 charge cycles
-
-Self-discharge per month    ~10–15% (when not in use)
-
-Dimensions    148 × 68 × 27 mm
-
-Weight    160 g
-
-Operating temperature    0°C to +45°C
-
-Storage temperature    -20°C to +60°C
-
-Standard energy (nominal)    ~15 Wh (2100 mAh × 7.2V)
 
 ⚡ Power Specifications
 
@@ -715,35 +560,8 @@ Component connection cable — connects all sensors and motors to the main EV3 B
 LEGO MINDSTORMS EV3 Cables are specialized cables with 6-pin connectors, designed by LEGO to reliably connect MINDSTORMS system components. The cables feature built-in pin identification, which prevents incorrect connections. Each cable carries both power (for motors and sensors) and data (I2C, UART) for two-way communication.
 🔧 Technical Specifications
 
-Specification    Value
+<img width="1920" height="1080" alt="Parameter (10)" src="https://github.com/user-attachments/assets/f6367d07-470b-4222-809e-a897cc5b3069" />
 
-Connector Type    6-pin LEGO connector (proprietary)
-
-Standard connector    Modified RJ12 (not compatible with telephone cables)
-
-Signal voltage    7.2–9.0 V (for power); TTL 3.3 V (for data)
-
-Maximum current    2 A per power line
-
-Wire material    4 conductors (2 for power + 2 for data) copper, cross-section ~0.14 mm²
-
-Insulation material    PVC (polyvinyl chloride)
-
-Cable diameter    ~3 mm
-
-Available lengths    20 cm, 35 cm, 50 cm
-
-Color coding	Cables come in different colors for easy identification
-
-Contacts    6 gold-plated contacts for a reliable connection
-
-Cable resistance    ~0.5 Ohm (for power wire)
-
-Maximum insulation resistance    >10 MΩ
-
-Standard operating temperature    -10°C to +50°C
-
-Flexibility    High — the cable bends easily without damage
 
 ⚡ Power specifications
 
@@ -782,20 +600,20 @@ EV3 Battery (7.2–9.0V)
     │
     ├─→ EV3 Brick
     
-    │       │
-    │       ├─→ Port A: EV3 Medium Motor
+   │       │
+  │       ├─→ Port A: EV3 Medium Motor
     
-    │       │
-    │       ├─→ Port 1: EV3 Color Sensor
+  │       │
+  │       ├─→ Port 1: EV3 Color Sensor
     
-    │       │
-    │       ├─→ Port 2: EV3 Ultrasonic Sensor
+  │       │
+   │       ├─→ Port 2: EV3 Ultrasonic Sensor
     
-    │       │
-    │       └─→ Port 3: Pixy 2.1 (via a 5V DC-DC converter!)
+   │       │
+   │       └─→ Port 3: Pixy 2.1 (via a 5V DC-DC converter!)
     
-    │
-    └─→ EV3 cables (for connecting components)
+   │
+   └─→ EV3 cables (for connecting components)
     
 ________________________________________
 ________________________________________
