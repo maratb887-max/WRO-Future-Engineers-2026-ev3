@@ -687,6 +687,56 @@ Flow: Once the line variable hits 12, the dedicated stop thread overrides the lo
 | Motor Cutoff | Send 0 power command to Drive Motor (D). | + 0.2s | Halt mechanical forward propulsion. |
 | Program Terminate | Full software shutdown. | + 2.0s | Allow mechanical inertia to settle, ensuring the projection remains strictly in the start zone. |  
 
+
+
+
+
+Obstacle Round
+====
+
+### Software Architecture & Obstacle Strategy (Obstacle Challenge)
+**Developer:** Nurlanbek
+
+**1. Finite State Machine (FSM) Architecture**
+To efficiently manage the complex requirements of the Obstacle Challenge, the main thread operates as a robust 4-step Finite State Machine. This ensures the robot only executes logic strictly relevant to its current situational context, eliminating contradictory motor commands.
+
+**Figure 5: 4-Step Finite State Machine Diagram**
+![Obstacle FSM](images/obstacle_fsm.png)
+*(Note for developer: Draw a diagram showing transitions between State 1 -> State 2 -> State 3 -> State 0 -> State 1).*
+
+**Table 5: State Definitions and Execution Logic**
+| State | Phase Name | Execution Logic | Transition Condition |
+| :--- | :--- | :--- | :--- |
+| **State 1** | Search & Follow | Bang-Bang wall following (Ultrasonic). Pixy camera actively scans for color signatures. | Pixy `Width > 30` AND `Signature > 0` $\rightarrow$ Go to State 2. |
+| **State 2** | Proportional Tracking | Drive forward while steering via P-Controller to align the pillar to a safe side offset. | Pixy `Width > 80` (Critically close) $\rightarrow$ Go to State 3. |
+| **State 3** | Evasive Clearance | Halt forward drive. Reverse dynamically while steering away to prevent side-swiping the pillar. | Pixy `Width <= 10` (Safe distance cleared) $\rightarrow$ Go to State 0. |
+| **State 4 (0)** | Wall Re-acquisition| Steer blindly back towards the inner wall while driving forward. | Ultrasonic distance `< 30 cm` $\rightarrow$ Go to State 1. |
+
+**2. Computer Vision & Proportional Control (P-Controller)**
+When an obstacle is detected (**State 2**), the robot switches from acoustic wall-following to visual Proportional Tracking. We implemented a custom P-Controller to smoothly guide the robot around the pillars using the formula: `Motor A Power = (Target_X - Current_X) * Kp`.
+
+* **Red Pillar (Signature 1):** Must be passed on the right. The algorithm forces the pillar to the left side of the camera's FOV. Target Setpoint ($A$) = 15. Equation: `Power = (15 - X) * 2`.
+* **Green Pillar (Signature 2):** Must be passed on the left. The algorithm forces the pillar to the right side of the FOV. Target Setpoint ($A$) = 220. Equation: `Power = (220 - X) * 2`.
+* **Engineering Justification:** Using proportional steering rather than hard-coded turns ensures smooth, parabolic trajectories. A Proportional Gain ($Kp = 2$) was empirically selected as it provides aggressive enough steering to avoid collisions without causing chassis oscillation.
+
+**3. Handling Edge Cases: The "Blind Spot" Collision**
+* **The Problem:** A common edge case in computer vision robotics is losing sight of the object when it gets too close to the camera, often resulting in the robot's rear wheels clipping the base of the pillar.
+* **The Solution (State 3):** To handle this, we use the bounding box `Width` as a proxy for distance. If `Width > 80`, the robot recognizes it is dangerously close to the pillar. It immediately engages reverse gear while steering sharply away (-25 angle for Red, +25 for Green). This creates physical clearance before returning to the wall. 
+
+**4. End-of-Run Strategy: Parallel Parking Algorithm**
+Parking logic is prioritized at the top of the main loop. Once the localization thread detects 12 lines (3 full laps), it overrides the standard FSM.
+* The robot returns to inner-wall following while the Pixy camera scans for the magenta parking lot boundaries.
+* Depending on the pre-randomized driving direction, we track the X-coordinate of the magenta bounding box. 
+* **Clockwise Trigger:** Wait until `X <= 10`.
+* **Counter-Clockwise Trigger:** Wait until `X > 150`.
+* Reaching these thresholds guarantees the robot's center of rotation is perfectly aligned with the parking lot opening, allowing a hard-coded 90-degree reverse parking maneuver to execute flawlessly.
+
+**Table 6: Testing, Tuning, and Performance Metrics**
+| Subsystem Tested | Variable Tuned | Issue Observed | Final Metric / Value Selected |
+| :--- | :--- | :--- | :--- |
+| **Line Counter** | Software Debounce | Double-counting lines caused premature parking. | Set to **3.0 seconds**. Ensures 100% accuracy, though limits maximum top speed on straights. |
+| **CV Tracking** | Proportional Gain ($Kp$) | $Kp = 1$ was too slow; $Kp = 4$ caused severe steering wobble. | **$Kp = 2$** selected for optimal smooth parabolic bypass. |
+| **Danger Threshold**| Pixy `Width` Trigger | Triggering State 3 too late caused side-swipes. | **`Width > 80`** guarantees intervention exactly 10 cm before impact. |
 Photos of robot:
 ====
 <img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/2f27f061-325a-4b0d-b419-d8e37379a3cd" />
