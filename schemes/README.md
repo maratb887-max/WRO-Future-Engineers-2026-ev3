@@ -1,118 +1,37 @@
 Open challenge code structure
 ====
-┌───────────────────────────┐
-               │          начало           │ (Начало / конец)
-               └─────────────┬─────────────┘
-                             │
-                    ┌────────┴────────┐
-                    │     line = 0    │ (Блок)
-                    └────────┬────────┘
-                             │
-                    ┌────────┴────────┐
-                    │  wait 1 second  │ (Блок)
-                    └────────┬────────┘
-                             │
-                    ┌────────┴────────┐
-                    │    ev3 sound    │ (Блок)
-                    └────────┬────────┘
-                             │
-                    ┌────────┴────────┐
-                    │motor D speed=100│ (Блок)
-                    │motor A speed=100│
-                    └────────┬────────┘
-                             │
-    ┌────────────────────────►────────────────────────┐
-    │                        │                        │
-    │               ┌────────┴────────┐               │
-    │               │ motor D: против │               │ (Блок)
-    │               │ часовой стрелки │               │
-    │               └────────┬────────┘               │
-    │                        │                        │
-    │                      /   \                      │
-    │                    /       \                    │
-    │                  / Расстояние \                 │
-    │                 <  (Порт 2)    >                │ (Условие)
-    │                  \  < 40 см?  /                 │
-    │                    \       /                    │
-    │                      \   /                      │
-    │                       / \                       │
-    │                 Да  /     \  Нет                │
-    │                   /         \                   │
-    │                  ▼           ▼                  │
-    │          ┌───────────┐   ┌───────────┐          │
-    │          │ motor A:  │   │ motor A:  │          │
-    │          │  против   │   │    по     │          │ (Блок)
-    │          │ часовой   │   │  часовой  │          │
-    │          └─────┬─────┘   └─────┬─────┘          │
-    │                │               │                │
-    │                └───────┬───────┘                │
-    │                        │                        │
-    │                      /   \                      │
-    │                    /       \                    │
-    │                  /  Яркость   \                 │
-    │                 <  (Порт 4)    >                │ (Условие)
-    │                  \  < 20%?    /                 │
-    │                    \       /                    │
-    │                      \   /                      │
-    │                       / \                       │
-    │                 Да  /     \  Нет                │
-    │                   /         \                   │
-    │                  ▼           └────────┐         │
-    │          ┌───────────┐                │         │
-    │          │  wait 1   │                │         │ (Блок)
-    │          │  second   │                │         │
-    │          └─────┬─────┘                │         │
-    │                │                      │         │
-    │                ▼                      │         │
-    │          ┌───────────┐                │         │
-    │          │ev3 sound: │                │         │ (Блок)
-    │          │   Blue    │                │         │
-    │          └─────┬─────┘                │         │
-    │                │                      │         │
-    │                ▼                      │         │
-    │          ┌───────────┐                │         │
-    │          │ line =    │                │         │ (Блок)
-    │          │ line + 1  │                │         │
-    │          └─────┬─────┘                │         │
-    │                │                      │         │
-    │                └───────┬──────────────┘         │
-    │                        │                        │
-    │                      /   \                      │
-    │                    /       \                    │
-    │                  /   Если     \                 │
-    │                 <  line = 12?  >                │ (Условие)
-    │                  \            /                 │
-    │                    \       /                    │
-    │                      \   /                      │
-    │                       / \                       │
-    │                 Да  /     \  Нет                │
-    │                   /         \                   │
-    │                  ▼           └──────────────────┐
-    │          ┌───────────┐                          │
-    │          │остановить │                          │ (Блок)
-    │          │  мотор D  │                          │
-    │          └─────┬─────┘                          │
-    │                │                                │
-    │                ▼                                │
-    │          ┌───────────┐                          │
-    │          │ev3 sound: │                          │ (Блок)
-    │          │ Game Over │                          │
-    │          └─────┬─────┘                          │
-    │                │                                │
-    │                ▼                                │
-    │          ┌───────────┐                          │
-    │          │  wait 1   │                          │ (Блок)
-    │          │  second   │                          │
-    │          └─────┬─────┘                          │
-    │                │                                │
-    │                ▼                                │
-    │          ┌───────────┐                          │
-    │          │   стоп    │                          │ (Блок)
-    │          └─────┬─────┘                          │
-    │                │                                │
-    │                ▼                                │
-    │          ┌───────────┐                          │
-    │          │   конец   │                          │ (Начало / конец)
-    │          └───────────┘                          │
-    │                                                 │
-    └─────────────────────────────────────────────────┘ (Стрелка возврата цикла)
+### 1. Open Challenge: Main Control Flow
+The following flowchart illustrates the discrete state logic (Bang-Bang controller) combined with the lap-counting thread.
+
+#### Logic Flowchart (Mermaid)
+```mermaid
+graph TD
+    Start([Начало]) --> Init[line = 0]
+    Init --> Wait1[Wait 1 second]
+    Wait1 --> Sound1[EV3 Sound: Start Tone]
+    Sound1 --> InitMotors[Motor D speed = 100<br>Motor A speed = 100]
+    InitMotors --> LoopStart
+    
+    LoopStart[Motor D: Вперед<br>против часовой] --> DistCheck{УЗ Датчик<br>Порт 2 < 40 см?}
+    
+    DistCheck -- Да --> SteerLeft[Motor A: Налево<br>против часовой]
+    DistCheck -- Нет --> SteerRight[Motor A: Направо<br>по часовой]
+    
+    SteerLeft --> LightCheck
+    SteerRight --> LightCheck
+    
+    LightCheck{Датчик цвета<br>Порт 4 < 20%?}
+    LightCheck -- Нет --> LoopStart
+    LightCheck -- Да --> DebounceWait[Wait 1 second]
+    
+    DebounceWait --> SoundLine[EV3 Sound: Blue]
+    SoundLine --> LineAdd[line = line + 1]
+    LineAdd --> StopCheck{line == 12?}
+    
+    StopCheck -- Нет --> LoopStart
+    StopCheck -- Да --> StopDrive[Остановить Motor D]
+    
+    StopDrive --> SoundEnd[EV3 Sound: Game Over]
+    SoundEnd --> FinalWait[Wait 1 second]
+    FinalWait --> Stop[Stop Program]
+    Stop --> End([Конец])
