@@ -700,7 +700,6 @@ Obstacle Round
 ====
 
 ### Software Architecture & Obstacle Strategy (Obstacle Challenge)
-**Lead Developer:** Nurlanbek
 
 **1. Deterministic Finite State Machine (FSM) Architecture**
 To manage the high complexity of the Obstacle Challenge, we discarded monolithic loop structures in favor of a strictly deterministic 4-state Finite State Machine (FSM). This architecture guarantees predictable transition logic, minimizes CPU latency on the main hub, and prevents race conditions between the Pixy camera’s I2C polling and the motor control threads.
@@ -713,17 +712,28 @@ To manage the high complexity of the Obstacle Challenge, we discarded monolithic
 | **State 3** | Kinematic Clearance | Halts forward propulsion. Executes a dynamic reverse maneuver with counter-steering to ensure the rear axle clears the obstacle base. | Pixy `Width <= 10` (Visual clearance confirmed) $\rightarrow$ Go to State 0. |
 | **State 4 (0)** | Wall Re-acquisition| Blind recovery mode. Steers at a fixed angle towards the inner boundary while driving forward. | Ultrasonic distance `< 30 cm` $\rightarrow$ Go to State 1. |
 
+<img width="1572" height="656" alt="image" src="https://github.com/user-attachments/assets/b35bdc63-a599-4bb4-ae61-e6c88560b1e3" />
+
+
+
 **2. Computer Vision (CV) & Proportional Control Strategy**
 During **State 2**, the robot relies entirely on visual data. We developed a custom Proportional Controller (P-Controller) to process the X-coordinates of the recognized pillars and output smooth, real-time steering corrections. The mathematical model is `Motor A Power = (Target_X - Current_X) * Kp`.
 
 * **Red Pillar (Pass Right - Signature 1):** The algorithm dynamically forces the pillar to the left quadrant of the camera's FOV. Target Setpoint ($A$) = 15. Control Equation: `Power = (15 - X) * 2`.
 * **Green Pillar (Pass Left - Signature 2):** The algorithm forces the pillar to the right quadrant. Target Setpoint ($A$) = 220. Control Equation: `Power = (220 - X) * 2`.
-* **Engineering Justification & Trade-offs:** Initial iterations used a discrete "if-then" steering approach, which caused severe zig-zagging and loss of camera tracking. By implementing a P-Controller with a carefully tuned Proportional Gain ($Kp = 2$), the robot achieves a smooth, parabolic bypass trajectory. 
+* **Engineering Justification & Trade-offs:** Initial iterations used a discrete "if-then" steering approach, which caused severe zig-zagging and loss of camera tracking. By implementing a P-Controller with a carefully tuned Proportional Gain ($Kp = 2$), the robot achieves a smooth, parabolic bypass trajectory.
+
+  <img width="1678" height="387" alt="image" src="https://github.com/user-attachments/assets/5a722b92-6d51-4084-990a-ddab738b2c41" />
+
+<img width="1673" height="353" alt="image" src="https://github.com/user-attachments/assets/4ec570d8-0f79-489b-8b85-c42d52e0f2bf" />
+
 
 **3. Handling Edge Cases: Illumination Variance and "The Blind Spot"**
 During rigorous testing, we identified two critical failure modes and engineered software heuristics to mitigate them:
 * **Edge Case A (Sensor Noise via Illumination):** Ambient overhead lighting caused glare on the green pillars, resulting in false-positive signature detections. *Solution:* We implemented a noise-filtering threshold in State 1 (`Width > 30`). The FSM will completely ignore any color blobs smaller than 30 pixels, ensuring the robot only reacts to actual physical pillars.
-* **Edge Case B (Rear Axle Clipping):** As the robot approaches an obstacle closely, the pillar falls below the Pixy camera's vertical FOV ("the blind spot"). If the robot continues turning, the geometric arc of the rear wheels clips the pillar's base. *Solution:* We engineered **State 3 (Kinematic Clearance)**. By utilizing the bounding box `Width` as an inverse proxy for distance, the FSM detects critical proximity (`Width > 80`). It instantly commands a reverse-and-counter-steer maneuver, creating the necessary physical clearance before returning to the wall.
+* **Edge Case B (Rear Axle Clipping):** As the robot approaches an obstacle closely, the pillar falls below the Pixy camera's vertical FOV ("the blind spot"). If the robot continues turning, the geometric arc of the rear wheels clips the pillar's base. *Solution:* We engineered **State 3 (Kinematic Clearance)**. By utilizing the bounding box `Width` as an inverse proxy for distance, the FSM detects critical proximity (`Width > 60`). It instantly commands a reverse-and-counter-steer maneuver, creating the necessary physical clearance before returning to the wall.
+
+  <img width="608" height="663" alt="image" src="https://github.com/user-attachments/assets/fcfaf7d7-4130-42f1-b337-1955de7f7f32" />
 
 **4. End-of-Run Strategy: Visually-Aligned Parallel Parking**
 Parking via pure odometry (dead-reckoning) proved highly unreliable due to wheel slip and battery voltage drops over 3 laps. To guarantee maximum points, our parking algorithm relies on active visual alignment.
@@ -734,12 +744,61 @@ Parking via pure odometry (dead-reckoning) proved highly unreliable due to wheel
   * **Counter-Clockwise Circuit:** The robot creeps forward until `X > 150` (aligning the zone to the right).
 * Reaching these exact visual thresholds guarantees the chassis's center of rotation is mathematically optimal for the final, hard-coded 90-degree reverse maneuver into the parking bay.
 
+<img width="1762" height="508" alt="image" src="https://github.com/user-attachments/assets/c9ea973f-a13a-46b8-9e72-f8d98e7b44f2" />
+
 **Table 6: Empirical Testing, Tuning, and Performance Metrics**
 | Subsystem / Variable | Observed Failure / Issue | Software Mitigation Applied | Validated Metric / Outcome |
 | :--- | :--- | :--- | :--- |
 | **Localization Logic** | False line counting due to color sensor micro-fluctuations on uneven mats. | Implemented a strict **3.0-second software debounce** block after detection. | Reduced false-positive lap counts from 25% to **0%** over 30 test runs. |
 | **CV P-Controller ($Kp$)** | High gain ($Kp = 4$) caused destructive oscillation; Low gain ($Kp = 1$) resulted in late turns and collisions. | Tuned Proportional Gain precisely to **$Kp = 2$**. | Achieved a 100% collision-free bypass rate on standardized straightaways. |
 | **Blind Spot Intervention** | Triggering State 3 too late caused physical side-swipes due to chassis geometry. | Set emergency trigger threshold to **Pixy `Width > 80`**. | Guarantees intervention exactly 10 cm before physical impact, providing optimal clearance. |
+
+### 4. Systems Thinking & Engineering Decisions
+
+This section outlines the holistic systems engineering approach used to develop the vehicle, detailing how hardware and software subsystems interact under the strict physical and computational constraints of the LEGO Mindstorms EV3 ecosystem.
+
+**4.1 Subsystem Interactions & Hardware Constraints**
+The vehicle operates as a highly integrated system where computational limits dictate hardware choices. 
+* **The Constraint:** The primary controller (LEGO Mindstorms EV3 Intelligent Brick) operates on an aging 300MHz ARM9 processor with severely limited RAM (64MB). It is completely incapable of processing raw video matrices natively.
+* **Subsystem Mapping:** To bypass the CPU bottleneck, we offloaded visual processing. The Pixy camera acts as an independent DSP node. It captures frames, runs color-blob algorithms internally at 60 FPS, and transmits only lightweight serialized data (Bounding Box X, Y, Width, Signature) to the EV3 block via the I2C communication protocol. The EV3 then fuses this data with the Ultrasonic sensor to command the Drive (Port D) and Steering (Port A) motors. 
+
+**4.2 Engineering Reasoning: "Why we chose X instead of Y" (Trade-offs)**
+Every major component was selected based on a strict trade-off analysis evaluating latency, reliability, and the EV3’s computational overhead.
+
+* **Decision 1: Vision System (Pixy vs. Raspberry Pi/OpenCV)**
+  * *Reasoning:* While adding a Raspberry Pi with OpenCV offers infinite flexibility, it introduces severe latencies (UART communication delays between Pi and EV3) and complex power management. We chose the Pixy camera because its onboard processing provides deterministic, low-latency target data directly to the EV3 sensor ports.
+  * *Trade-off:* We sacrificed advanced object classification (e.g., YOLO) for ultra-low latency, real-time control, and a unified, lightweight power architecture.
+* **Decision 2: Steering Mechanism (Direct Pivot vs. Ackermann Linkage)**
+  * *Reasoning:* WRO rules strictly prohibit differential tank drive. However, even among steered options, we chose a direct-drive front-axle pivot utilizing the EV3 Large Motor over a complex physical Ackermann linkage. 
+  * *Trade-off:* We sacrificed perfect theoretical slip-angles on the inner wheels for extreme mechanical robustness and zero backlash (play) in the LEGO gear trains, which proved critical for accurate P-Controller execution.
+
+**4.3 Iteration and Testing Cycles (Data-Driven Decisions)**
+The development of the vision subsystem went through a rigorous, data-driven iteration cycle to solve the "Blind Spot" problem.
+
+* **Iteration 1 (Flat Mount):** Camera mounted parallel to the ground. *Testing Data:* Robot successfully detected pillars at 150 cm, but lost sight of them at 15 cm. *Result:* Rear-axle collisions during tight bypasses.
+* **Iteration 2 (15° Downward Tilt):** *Testing Data:* Close-range detection improved (down to 5 cm), but the camera failed to see the next pillar down the track, causing delayed steering responses.
+* **Iteration 3 (Final - 5° Tilt + Software Mitigation):** *Testing Data:* We locked the mechanical tilt at a conservative 5° for optimal mid-range FOV, and shifted the close-range problem to the software subsystem (implementing *State 3: Kinematic Clearance* described in Section 3). *Result:* 100% collision-free bypass rate without sacrificing forward visibility.
+
+**4.4 Risk Identification & Mitigation (FMEA Analysis)**
+To ensure maximum reliability, we conducted a Failure Mode and Effects Analysis (FMEA) to identify potential EV3 system risks and engineer proactive mitigations.
+
+**Table 7: System Risk and Failure Analysis (FMEA)**
+| Subsystem | Potential Failure Mode (Risk) | Impact / Consequence | Engineered Mitigation Strategy |
+| :--- | :--- | :--- | :--- |
+| **Vision (I2C/Pixy)** | Ambient arena lighting changes, shifting RGB values of the pillars. | False positives or complete failure to detect obstacles. | Implemented a strict pre-run Pixy teaching protocol. EV3 code includes a `Width > 30` filter to reject small noise artifacts. |
+| **Power (EV3 Battery)**| Voltage drop during continuous 3-lap operation. | EV3 Large Motors lose torque; RPM decreases, causing dead-reckoning timing to fail. | Eliminated time-based navigation entirely. The parking sequence relies *exclusively* on visual geometry (Pixy coordinates) and closed-loop line counting. |
+| **Sensors (Ultrasonic)**| Sound wave deflection off angled walls or other robots causing "infinity" readings. | Robot violently turns into the wall to overcompensate. | Embedded a mathematical clamp in the Bang-Bang controller. Readings > 100 cm are discarded as anomalies, maintaining the previous steering state. |
+| **Mechanical** | EV3 motor gears skipping under heavy lateral load during turns. | Loss of center calibration; robot drives diagonally when commanded straight. | Utilized heavy-duty LEGO Technic frames around the steering motor to physically prevent gear separation under torque. |
+
+### Reproducibility: How to Setup and Run
+1. **Mechanical Build:** Download `cad/build_instructions.pdf` and assemble the chassis using standard LEGO Technic elements.
+2. **Wiring:** Connect the Drive Motor to Port D, Steering Motor to Port A, Ultrasonic to Port 4, Color Sensor to Port 3. Connect the Pixy camera to Port 1 using the custom I2C cable mapped in `schematics/i2c_pixy_ev3.png`.
+3. **Vision Calibration (Crucial):** Open PixyMon software on PC. Load the `pixy_params.prm` file to import the exact HSV color signatures for the red and green pillars. Verify ambient lighting does not wash out the green signature.
+4. **Software Deployment:** Download `main_logic.ev3` to the LEGO Mindstorms block.
+5. **Testing Workflow:**
+   - Place the robot strictly behind the Start/Finish line.
+   - Run the "Obstacle_Main" program.
+   - **Verification:** The robot should emit an audio tone, initialize the Pixy sensor, and begin forward propulsion while polling the ultrasonic sensor for inner-wall alignment.
 
 Photos of robot:
 ====
