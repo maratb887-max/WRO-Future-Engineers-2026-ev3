@@ -636,6 +636,11 @@ Software Architecture & Navigation Strategy (Open Challenge)
 ### 1. Open Challenge: Main Control Flow
 The following flowchart illustrates the discrete state logic (Bang-Bang controller) combined with the lap-counting thread.
 
+Open challenge code structure
+====
+### 1. Open Challenge: Main Control Flow
+The following flowchart illustrates the discrete state logic (Bang-Bang controller) combined with the lap-counting thread.
+
 #### Logic Flowchart (Mermaid)
 ```mermaid
 graph TD
@@ -669,7 +674,9 @@ graph TD
     FinalWait --> Stop[Stop Program]
     Stop --> End([Конец])
 
-**Table 1: Task Allocation across Parallel Threads**
+
+
+   **Table 1: Task Allocation across Parallel Threads**
 
 | Thread | Hardware Components | Subsystem Function |
 | :--- | :--- | :--- |
