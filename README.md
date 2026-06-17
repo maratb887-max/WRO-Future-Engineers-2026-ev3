@@ -205,6 +205,7 @@ V2 Solution - Three approaches simultaneously:
 Wheelbase Extension (Wheelbase Extension)
 
 Increased axle distance from 150 → 150 mm (maintained for stability)
+
 Physics: moment of inertia increases → more stable rotation
 
 
@@ -300,7 +301,7 @@ Height: 8-10 cm above floor
 
 Direction: Left and Right, with slight downward angle (-10°)
 
-Justification: Proportional regulator
+Justification: Relay regulator
 <img width="1920" height="1080" alt="Parameter (13)" src="https://github.com/user-attachments/assets/8bb28250-c374-43dd-a487-62ccd2c10893" />
 
 
