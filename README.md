@@ -107,7 +107,8 @@ Result: minimum wheel slipping, maximum acceleration
 
 Comparison of Steering Mechanisms
 
-ParameterAckermann TrapezoidParallel Steering (Our Choice)PrincipleInner wheel turns at a larger angleBoth front wheels turn at the same angleConstruction ComplexityHigh (crossbar, levers)Low (direct motor transmission)System BacklashDue to multiple joints (±1-2°)Minimal backlash (±0.5°)Space RequirementsRequires wide wheelbaseCompact, ideal for narrow wheelbaseTurning AngleLimited by geometry (~30-35°)Can be adjusted up to 45-50°Cost$$$ (many LEGO parts)$ (Simple Gear Ratio System)Applicability for WROBetter for larger robots (>30 cm)✅ Ideal for compact (~25 cm)
+<img width="1920" height="1080" alt="Parameter (15)" src="https://github.com/user-attachments/assets/3ec0853f-60c1-414e-aa04-596b56965359" />
+
 
 Constructive Implementation of Parallel Steering Mechanism
 
