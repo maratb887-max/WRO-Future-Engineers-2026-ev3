@@ -1,4 +1,4 @@
-
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/b2be791f-2c42-4b7e-a28f-207d86795835" />
 Introduction:
 ====
 We are a team Nishtyak participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
@@ -282,27 +282,40 @@ Color Sensor (Color Sensor)
 
 
 Position: Approximately centered, between two drive wheels
+
 Height: 1-2 cm above floor (optimal for line following)
+
 Angle: Straight down (0°)
+
 Justification: Maximum stable readings of black line, minimal interference
+<img width="1920" height="1080" alt="Parameter (12)" src="https://github.com/user-attachments/assets/dab01ea1-1bb3-49c8-af3d-1d49eb862ff0" />
 
 
 Ultrasonic Sensor (US Sensor)
 
 
-Position: Front right (offset +15 cm to the right)
+Position: Front right (offset +15 cm to the right) and front left
+
 Height: 8-10 cm above floor
+
 Direction: Forward, with slight downward angle (-10°)
-Justification: Early obstacle detection ahead, minimal reflections from side walls
+
+Justification: Proportional regulator
+<img width="1920" height="1080" alt="Parameter (13)" src="https://github.com/user-attachments/assets/8bb28250-c374-43dd-a487-62ccd2c10893" />
 
 
 Pixy 2.1 (Camera)
 
 
-Position: Front left (offset -15 cm to the left)
+Position: Front, between two ultrasonic sensors
+
 Height: 12-15 cm above floor
-Direction: Forward and down at -20° angle
+
+Direction: Forward and down at -15° angle
+
 Justification: Wide field of view for detecting colored blocks on floor. -20° angle allows seeing objects 40-100 cm ahead
+<img width="1920" height="1080" alt="Parameter (14)" src="https://github.com/user-attachments/assets/8647fc31-7751-4084-83de-b0db0cd676b3" />
+
 
 
 
@@ -316,27 +329,7 @@ Justification: Wide field of view for detecting colored blocks on floor. -20° a
 6.2 Residual Problems (Known Limitations)
 
 
-Instability with Strong Acceleration
-
-Rear wheel slipping possible with rapid speed increase
-Solution: Limit acceleration in code, gradually increase motor power
-
-
-
-Backlash in Steering Mechanism
-
-Parallel mechanism has slight backlash (±1-2°) due to LEGO parts
-Solution: Regularly check gear mounting, tighten as needed
-
-
-
-Dependence on Room Lighting
-
-Pixy 2.1 sensitive to weak/uneven lighting
-Solution: Test on polygon in conditions close to competition
-
-
-
+<img width="1920" height="1080" alt="Parameter (11)" src="https://github.com/user-attachments/assets/42838e11-02ae-4822-b2c1-005a7a75d291" />
 
 
 
@@ -346,7 +339,9 @@ Solution: Test on polygon in conditions close to competition
 
 
  Install tire pressure sensor for traction control
+ 
  Add accelerometer for more accurate roll control
+ 
  Conduct wind-tunnel testing of streamlined chassis
 
 
@@ -354,7 +349,9 @@ Solution: Test on polygon in conditions close to competition
 
 
  Consider four-wheel steering mechanism (4WS) for improved maneuverability
+ 
  Try carbon fiber elements instead of LEGO for 20% weight reduction
+ 
  Add IMU sensor for stabilization at high speeds
 
 
@@ -404,6 +401,7 @@ The robot controller is the robot’s main “brain,” which controls all other
 
 📝 Description
 The LEGO MINDSTORMS EV3 Intelligent Brick is a powerful microcontroller based on an ARM processor, running the ev3dev (Linux) operating system. It allows you to program the robot in Python, making it the ideal choice for WRO Future Engineers. The brick is equipped with built-in ports for connecting motors (A, B, C, D) and sensors (1, 2, 3, 4), and also features a built-in screen for debugging and testing.
+
 🔧 Technical Specifications
 
 <img width="1920" height="1080" alt="Parameter (3)" src="https://github.com/user-attachments/assets/23404343-594e-43e1-a069-ecc30e017e75" />
@@ -427,6 +425,7 @@ Steering mechanism drive — The Medium Motor is used to turn the robot’s stee
 
 📝 Description
 The LEGO MINDSTORMS EV3 Medium Motor is a compact, powerful motor with a built-in encoder (rotation sensor) for precise position control. It is ideal for applications requiring precision and speed without excessive torque. In our design, a single unit is used to control the steering angle of the front wheels, ensuring precise path tracking.
+
 🔧 Technical Specifications
 
 <img width="1920" height="1080" alt="Parameter (4)" src="https://github.com/user-attachments/assets/29a86348-49a1-4874-8c98-9d72ff649ce6" />
@@ -717,8 +716,17 @@ This documentation serves as a complete record of our engineering journey, provi
 
 Photos of robot:
 ====
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/2f27f061-325a-4b0d-b419-d8e37379a3cd" />
 
+<img width="1280" height="960" alt="image" src="https://github.com/user-attachments/assets/283add3d-fce4-47b9-9b5a-07b5b734babe" />
 
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/035fe0cc-7501-4cf0-851a-c4fb3ae2f32b" />
+
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/0b5ec545-ef1a-4a01-983d-77f59082835c" />
+
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/c5db02a9-8725-4e21-bb3f-f7f9dde44cc6" />
+
+<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/97e64b03-d991-485e-b332-2911d9a304a0" />
 
 Team photo:
 ====
