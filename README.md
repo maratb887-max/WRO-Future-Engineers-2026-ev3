@@ -1,7 +1,7 @@
 
 Introduction:
 ====
-We are a team cybercrafters participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
+We are a team Nishtyak participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
 Project Vision:
 Our team focused on developing an autonomous mobile robot capable of high-speed navigation and precise obstacle avoidance. The primary objective was to create a robust system that combines mechanical stability with an advanced software architecture to handle the dynamic challenges of the WRO competition.
 
@@ -21,8 +21,11 @@ Our robot's construction has undergone several profound iterations of engineerin
 
 
 ✅ Speed on straight sections (> 0.8 m/s)
+
 ✅ Stability in turns (roll angles not exceeding 2-3°)
+
 ✅ Reliability with obstacles (no damage when touching walls)
+
 ✅ Positioning accuracy (route error < 5 cm)
 
 
@@ -34,42 +37,69 @@ Our robot's construction has undergone several profound iterations of engineerin
 Why RWD instead of FWD or 4WD?
 
 ┌─────────────────────────────────────────────────┐
-│         CONFIGURATION ANALYSIS                   │
+
+│         CONFIGURATION ANALYSIS          
+│
 ├─────────────────────────────────────────────────┤
+
 │                                                   │
-│  FWD (Front-Wheel Drive):                       │
+│  FWD (Front-Wheel Drive):  
+│
 │  ❌ During acceleration, transfers weight forward│
-│  ❌ Front wheels lose traction                    │
-│  ❌ Complex steering mechanism (motor + drive)  │
+
+│  ❌ Front wheels lose traction     
+│
+│  ❌ Complex steering mechanism (motor + drive) │
+
 │                                                   │
+
 │  4WD (Four-Wheel Drive):                        │
+
 │  ❌ Requires 4 motors + gearboxes (expensive)   │
+
 │  ❌ Difficult traction control in turns         │
+
 │  ❌ Excessive weight for WRO Future Engineers   │
+
 │                                                   │
+
 │  ✅ RWD (Rear-Wheel Drive):                     │
+
 │  ✅ Weight shifts backward during acceleration   │
+
 │  ✅ Improved traction on driving wheels         │
+
 │  ✅ Simple construction with single motor       │
+
 │  ✅ Full control of front wheel steering angle  │
+
 │  ✅ Minimum wheel slipping on smooth floor      │
+
 │                                                   │
+
 └─────────────────────────────────────────────────┘
+
 
 Physics of RWD System
 
 Traction Force Formula:
 
 Traction Force = μ × Normal Force
+
 where:
+
   μ = coefficient of friction between wheel and floor (~0.6-0.8 for slick on WRO linoleum)
+  
   Normal Force = weight acting on driving wheels
+
 
 RWD Advantage During Acceleration:
 
 
 During acceleration, center of gravity shifts backward → ↑ pressure on rear wheels
+
 ↑ Normal Force on rear wheels → ↑ maximum traction force
+
 Result: minimum wheel slipping, maximum acceleration
 
 
@@ -81,6 +111,7 @@ Comparison of Steering Mechanisms
 ParameterAckermann TrapezoidParallel Steering (Our Choice)PrincipleInner wheel turns at a larger angleBoth front wheels turn at the same angleConstruction ComplexityHigh (crossbar, levers)Low (direct motor transmission)System BacklashDue to multiple joints (±1-2°)Minimal backlash (±0.5°)Space RequirementsRequires wide wheelbaseCompact, ideal for narrow wheelbaseTurning AngleLimited by geometry (~30-35°)Can be adjusted up to 45-50°Cost$$$ (many LEGO parts)$ (Simple Gear Ratio System)Applicability for WROBetter for larger robots (>30 cm)✅ Ideal for compact (~25 cm)
 
 Constructive Implementation of Parallel Steering Mechanism
+
 
            EV3 Medium Motor
                   │
@@ -100,6 +131,7 @@ Constructive Implementation of Parallel Steering Mechanism
     Wheel          Wheel
 
 Result: Angle α = identical for both wheels
+
         Turning Radius R = wheelbase distance / sin(α)
 
 
@@ -109,32 +141,55 @@ During 8 weeks of testing, we reconsidered the initial concept, moving away from
 
 3.1 Evolution of Construction
 
-ComponentEarly Prototype (V1)Intermediate Version (V1.5)Final Robot (V2)🎯 Engineering JustificationWheel Size (diameter)56 mm (standard LEGO)56 mm56 mmWe used standard LEGO wheels without modifications. Weight optimization was more important.Tire TypeStandard LEGOStandard LEGOStandard LEGOAll versions use standard LEGO tires without special modifications.Overall Chassis Length26 cm25 cm25 cmRemoved unnecessary LEGO parts. V1 had protruding elements, V2 is more compact.Center of Gravity Height~11 cm~10 cm~9.5 cmBattery positioned lower in construction → less roll in turns.Electronics LayoutWires protrudingPartial cablingWires in cable ductsProtruding wires catch on obstacles. V2 eliminated unnecessary wires.Wheelbase (Axle Distance)145 mm150 mm150 mmLonger base = more stable. V1 was shorter, often slipped in turns.Sensor PlacementStraight frontDiagonal offsetOptimal distanceRepositioned Color Sensor closer to axle, US sensor to the side. Less interference.Chassis MaterialStandard LEGO ABSStandard LEGO ABSLEGO + reinforced cornersReinforced corners with additional LEGO beams (no metal). V1 bent during acceleration.
+<img width="1920" height="1080" alt="Parameter" src="https://github.com/user-attachments/assets/47b09a2b-55b9-4714-8e8d-8aa12950b144" />
+
 
 3.2 Physical Parameters - V1 vs V2 Comparison
 
 ╔════════════════════════════════════════════════════════════════╗
+
 ║              PERFORMANCE IMPROVEMENTS (V1 → V2)                ║
+
 ╠════════════════════════════════════════════════════════════════╣
+
 ║                                                                  ║
+
 ║  Maximum Speed:                                                 ║
+
 ║  V1: 50 cm/s  →  V2: 72 cm/s                [↑ 44%]            ║
+
 ║                                                                  ║
+
 ║  Roll in Turn (at R = 50 cm):                                  ║
+
 ║  V1: 4.0°  →  V2: 2.5°                      [↓ 37%]            ║
+
 ║                                                                  ║
+
 ║  Line Following Accuracy:                                       ║
+
 ║  V1: ±2.5 cm  →  V2: ±1.5 cm                [↓ 40%]            ║
+
 ║                                                                  ║
+
 ║  Object Detection Reliability (Pixy 2.1):                      ║
+
 ║  V1: 72% success  →  V2: 84% success        [↑ 17%]            ║
+
 ║                                                                  ║
+
 ║  Robot Weight:                                                  ║
+
 ║  V1: 1200 g  →  V2: 700 g                   [↓ 42%]            ║
+
 ║                                                                  ║
+
 ║  Power Consumption (at 60 cm/s):                               ║
+
 ║  V1: 38 W  →  V2: 28 W                      [↓ 26%]            ║
+
 ║                                                                  ║
+
 ╚════════════════════════════════════════════════════════════════╝
 
 
@@ -187,7 +242,8 @@ Reducing h from 11 cm to 9.5 cm → critical angle increased by approximately 18
 
 What we did: In V1 the robot was heavy and often slipped. In V2 we optimized weight and battery placement.
 
-ParameterV1 (1200 g)V2 (700 g)ResultAcceleration TractionAverage (frequent slipping)Good (minimal slipping)✅ Better controllabilityTurn StabilityLow (rolls up to 4°)Good (rolls up to 2.5°)✅ Smoother turn navigationEnergy Efficiency38 W at 60 cm/s28 W at 60 cm/s✅ 26% less consumptionSensor FocusingUnstable (vibration)Stable (clear vision)✅ Pixy 2.1 detects objects more accurately
+<img width="1920" height="1080" alt="Parameter (1)" src="https://github.com/user-attachments/assets/deaa8701-f79a-4522-bcd2-fd848c1f9db3" />
+
 
 Conclusion: Reducing weight from 1200 g to 700 g gave us better dynamics without requiring special wheel modifications.
 
@@ -254,7 +310,8 @@ Justification: Wide field of view for detecting colored blocks on floor. -20° a
 
 6.1 Main Trade-offs
 
-Trade-offWhat We Gained ✅What We Lost ❌Final DecisionWeight Reduction (1200 → 700 g)↑ speed, ↓ power consumptionHad to remove unnecessary LEGO partsMinimum necessary componentsRWD instead of FWD↑ acceleration traction, ↓ slippingFront wheels only control steeringRWD ideal for our designParallel Steering↑ compactness, ↓ backlashLess maneuverable at very low speedsSufficiently maneuverable for trackStandard LEGO Wheels↑ reliability, ↓ complexityNo possibility of special tuningStandard wheels work well
+<img width="1920" height="1080" alt="Parameter (2)" src="https://github.com/user-attachments/assets/231321bf-2038-43f6-9837-61600c8b2c8e" />
+
 
 6.2 Residual Problems (Known Limitations)
 
@@ -323,16 +380,25 @@ Power and Sensor Management
 ====
 WRO 2025 Future Engineers - Robot Component Description
 📋 Table of Contents
+
 •    EV3 Brick (Control Brick)
+
 •    EV3 Medium Motor
+
 •    EV3 Ultrasonic Sensor
+
 •    EV3 Color Sensor
+
 •    Pixy 2.1 Camera
+
 •    EV3 Battery
+
 •    EV3 Wire
+
 ________________________________________
 EV3 Brick (Control Brick)
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e404d268-4b39-420f-a643-b1fb2b416423" />  <img width="1920" height="1080" alt="Parameter (3)" src="https://github.com/user-attachments/assets/9ab0898c-22d3-486a-a010-42d52f28e110" />
+
 
 🎯 Function
 The robot controller is the robot’s main “brain,” which controls all other components. The EV3 Brick is responsible for processing data from sensors, executing algorithms, controlling motors, and making real-time decisions.
@@ -340,6 +406,7 @@ The robot controller is the robot’s main “brain,” which controls all other
 📝 Description
 The LEGO MINDSTORMS EV3 Intelligent Brick is a powerful microcontroller based on an ARM processor, running the ev3dev (Linux) operating system. It allows you to program the robot in Python, making it the ideal choice for WRO Future Engineers. The brick is equipped with built-in ports for connecting motors (A, B, C, D) and sensors (1, 2, 3, 4), and also features a built-in screen for debugging and testing.
 🔧 Technical Specifications
+
 Specification    Value
 Processor    Texas Instruments Sitara AM1808, ARM9, 300 MHz
 
