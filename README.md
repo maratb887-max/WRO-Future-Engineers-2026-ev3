@@ -1,4 +1,3 @@
-<img width="960" height="1280" alt="image" src="https://github.com/user-attachments/assets/b2be791f-2c42-4b7e-a28f-207d86795835" />
 Introduction:
 ====
 We are a team Nishtyak participating in WRO Future Engineers 2026. Our team members are Marat Beksultan and Sadyrov Aryn.
